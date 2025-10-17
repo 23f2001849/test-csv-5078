@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CSV Reader</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
+    <style>
+        body {
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <h1>CSV Reader</h1>
+                <div id="total-price"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Fetch the CSV data
+        fetch('products.csv')
+            .then(response => response.text())
+            .then(data => {
+                // Parse the CSV data
+                let csvData = data.split('\n').map(row => row.split(','));
+
+                // Calculate the total price
+                let totalPrice = csvData.reduce((total, row) => total + parseFloat(row[1]), 0);
+
+                // Display the total price
+                document.getElementById('total-price').innerText = `Total Price: $${totalPrice.toFixed(2)}`;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('total-price').innerText = 'Error fetching data';
+            });
+    </script>
+</body>
+</html>
